@@ -181,19 +181,18 @@
 
       After we added multiple flags and checks to ensure that our data was synchronized, we saw that the source did actually set the value of the nearby pixels high and the sink did pull it down. We changed the location of the sink and we saw this output on the VGA screen. This wasn't what we expected and we initially thought that this was because the simulation was moving too fast. But this was actually because when we were merging our files, we had accidentally commented out the instantiation of a wire, which led to an implicit declaration and this messed up the values. 
       
-      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/AllRed.png" alt="Generic placeholder image" style="width:40%;"></div></p>
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/AllRed.png" alt="Generic placeholder image" style="width:30%;"></div></p>
 
       We had to rethink the structure of our files and redefine what the outputs and inputs to each of the modules would be. Luckily, we found an empty classroom and a big blackboard that played a pivotal role in helping us clearly define the FPGA design. Equipped with this block diagram, we modified the different modules. Ensured that the right flags were being set and the correct outputs and inputs were also being set. Once we were able to solve this, the simulation was moving as expected. 
 
       <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/Blackboard.png" alt="Generic placeholder image" style="width:70%;"></div></p>
- 
+      
+      The end result is a working heat distribution simlation where the user can inject heat and watch it disperse, eventually reaching a steady state form! We selected 14 colors to generate our own color pallet that represented a wide thermal distribution range. The color resolution is 8 bits - 3 bits for red, 3 bits for green, and 2 bits for blue. 
+
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/SimPics.png" alt="Generic placeholder image" style="width:70%;"></div></p>
+
 
     </div>
-
-
-
-
-
 
 
     <!-- RESULTS OF THE DESIGN -->
@@ -207,10 +206,10 @@
       <div style="text-align:left; padding: 0px 30px;"><h3>Compile Time</h3></div>
       <p style="text-align: left;padding: 0px 30px;"> The compilation took about 16 minutes to run each time and this caused issues when we wanted to modify signal tap parameters. Everytime we made a change to the code and wanted to test it, we would have to compile it and then recompile it with the modified signal tap signals. Another issue we faced was that since we were using a lot of M10K blocks in our design too, we were limited by how many memory blocks we could use for signal tap. This really pushed us to understand our code better and debug smarter by picking the signals we needed for debugging only. </p>
  
-      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/CompileTime.png" alt="Generic placeholder image" style="width:60%;"></div></p>
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/CompileTime.png" alt="Generic placeholder image" style="width:40%;"></div></p>
 
       <div style="text-align:left; padding: 0px 30px;"><h3>FPGA Resources Used</h3></div>
-      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/ResourcesUsed.png" alt="Generic placeholder image" style="width:60%;"></div></p>
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/ResourcesUsed.png" alt="Generic placeholder image" style="width:40%;"></div></p>
 
 
     </div>
