@@ -135,8 +135,6 @@
 
 
 
-
-
     <!-- PROGRAM AND HARDWARE DESIGN -->
 
     <hr id="PHD">
@@ -170,7 +168,25 @@
 
       <!-- FPGA DESIGN -->
       <div style="text-align:left; padding: 0px 30px;"> <h3>FPGA Design</h3> </div>
-      <p style="text-align: left;padding: 0px 30px;">sometjhign </p>
+
+      <p style="text-align: left;padding: 0px 30px;"> The HLD section goes over in detail the different modules included in the Verilog design. In this section we will go over details about what worked well and what didn’t along with details on the hardware. In our FPGA design for this project, we aimed to create a seamless and user-friendly interface for displaying and interacting with the heat simulation. Initially, our plan was to assign each pixel on the screen as a representation of one grid center. However, due to the limitation in the number of available M10K blocks, we had to adjust our approach. Instead, we decided to treat a 7x7 pixel area as one grid center. During the integration process of the ModelSim heat equation implementation with the plotting system connected to the HPS, we encountered several structural challenges. One significant issue was determining which modules had access to which M10K blocks. To address this, we implemented synchronization signals to ensure that the compute modules would only compute a single row and then wait until a signal was received before moving on to the next row. This allowed the higher-level modules enough time to send each computed value to the arbiter, which was responsible for plotting the results on the VGA screen. These adjustments and the introduction of synchronization signals helped us overcome the structural issues and successfully integrate the different components of the system. </p>
+
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/ComputeModule.png" alt="Generic placeholder image" style="width:60%;"></div></p>
+
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/Grid.png" alt="Generic placeholder image" style="width:50%;"></div></p>
+
+      The figure below shows the initialized source and sink from the first time step plotted on the VGA. Because of the state machines in different modules not being correctly synchronized we struggled to find the error as to why it would not move on to the next time step. At this point we decided to carefully analyze how all the modules were connected and were able to find multiple single bit bugs contributing to the issue. 
+
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/SourceSink.png" alt="Generic placeholder image" style="width:40%;"></div></p>
+
+      After we added multiple flags and checks to ensure that our data was synchronized, we saw that the source did actually set the value of the nearby pixels high and the sink did pull it down. We changed the location of the sink and we saw this output on the VGA screen. This wasn't what we expected and we initially thought that this was because the simulation was moving too fast. But this was actually because when we were merging our files, we had accidentally commented out the instantiation of a wire, which led to an implicit declaration and this messed up the values. 
+      
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/AllRed.png" alt="Generic placeholder image" style="width:40%;"></div></p>
+
+      We had to rethink the structure of our files and redefine what the outputs and inputs to each of the modules would be. Luckily, we found an empty classroom and a big blackboard that played a pivotal role in helping us clearly define the FPGA design. Equipped with this block diagram, we modified the different modules. Ensured that the right flags were being set and the correct outputs and inputs were also being set. Once we were able to solve this, the simulation was moving as expected. 
+
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/Blackboard.png" alt="Generic placeholder image" style="width:70%;"></div></p>
+ 
 
     </div>
 
@@ -187,6 +203,16 @@
       <h2>Results</h2>
       <p style="text-align: left;padding: 0px 30px;">The speed of execution is incredibly fast and can be used live without any visible delay by users. The parallelization using the M10K blocks worked incredibly well for calculating the heat equation and the use of the GPU to plot through the SRAM also assisted in our ability to display live every time step iteration. We verified the correctness of our implementation by checking the point values in the first few timesteps manually. This was the same method of verification that we used to debug our modelsim implementation as well. </p>
       <p style="text-align: left;padding: 0px 30px;">The user interface is incredibly user-friendly and easy to use as we ended up having to scale down some of our initial plans for HPS control. The user only has to run the executable file on the HPS and then can begin clicking wherever on the screen they would like to inject heat. Future progress can definitely be added here, our next step that we actually had implemented was giving the user the ability to differentiate between injecting heat and removing it using left and right button clicks, but unfortunately ran out of time for this addition on the FPGA side. The addition of sources and sinks is not as user friendly as this is currently hard-coded into the Verilog implementation. </p>
+
+      <div style="text-align:left; padding: 0px 30px;"><h3>Compile Time</h3></div>
+      <p style="text-align: left;padding: 0px 30px;"> The compilation took about 16 minutes to run each time and this caused issues when we wanted to modify signal tap parameters. Everytime we made a change to the code and wanted to test it, we would have to compile it and then recompile it with the modified signal tap signals. Another issue we faced was that since we were using a lot of M10K blocks in our design too, we were limited by how many memory blocks we could use for signal tap. This really pushed us to understand our code better and debug smarter by picking the signals we needed for debugging only. </p>
+ 
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/CompileTime.png" alt="Generic placeholder image" style="width:60%;"></div></p>
+
+      <div style="text-align:left; padding: 0px 30px;"><h3>FPGA Resources Used</h3></div>
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/ResourcesUsed.png" alt="Generic placeholder image" style="width:60%;"></div></p>
+
+
     </div>
 
 
