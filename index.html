@@ -85,49 +85,29 @@
         </ul>
       </div>
     </div>
-    <hr>
-
-
+    
+    
+    <!-- HIGH LEVEL DESIGN SECITTON -->
+    <hr id='HLD'>
     <div style="text-align:center;">
       <h2>High Level Design</h2>
+      <p style="text-align: left;padding: 0px 30px;"> Initially, we wanted to model individual Monarch butterfly behavior patterns and how they flock together, as they are known for their unique migration patterns and ability to navigate through environmental conditions based on temperature. Given more extensive research however, there were no equations out there to model flight patterns, so we pivoted to simulating the thermal distribution given a variety of heat sources and sinks in spirit of our original project. </p>
+      <div style="text-align:center;"><img class="img-rounded" src="pics/HighLevelDesign.png" alt="Generic placeholder image" style="width:80%;"></div>
+      
+      <!-- BACKGROUND MATH -->
+      <div style="text-align:left; padding: 0px 30px;"><h3>Background Math</h3></div>
+
+      <p style="text-align: left;padding: 0px 30px;"> The discrete heat diffusion equation is a numerical approximation of the continuous heat diffusion equation, which describes the behavior of heat conduction in a given domain over time.  To implement this equation on the FPGA, we used the discretized version, which breaks down the domain into a grid of discrete points and approximates the heat transfer between these points based on their neighboring values. The 1D discrete heat equation is expressed as the following:</p>
+
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/MathBackground.png" alt="Generic placeholder image" style="width:60%;"></div></p>
+
+      <p style="text-align: left;padding: 0px 30px;">  The equation calculates and updates the temperature at each point in the grid based on the temperatures of its neighboring points at the previous time step. For our design, we multiplied the alpha and change in temperature to control the rate of heat transfer between neighboring grid points in each iteration</p>
+      <p style="text-align: left;padding: 0px 30px;">  To solve the discrete heat diffusion equation, we start with either no heat or with an initial temperature distribution throughout the grid. Upon a heat injection, the design iteratively calculates the temperature at each point for subsequent time steps using the equation mentioned above. This process continues until the temperature distribution reaches a steady state. The block design that imlements our logical structure is shown below. </p>
+
+      <!-- LOGICAL STRUCTURE -->
+      <div style="text-align:left; padding: 0px 30px;"><h3>Logical Structure</h3></div>
+      <p style="text-align: left;padding: 0px 30px;">  To sostuff</p>
     </div>
-    
-    <p style="text-align: left;padding: 0px 30px;">   
-    Initially, we wanted to model individual Monarch butterfly behavior patterns and how they flock together, as they are known for their unique migration patterns and ability to navigate through environmental conditions based on temperature. Given more extensive research however, there were no equations out there to model flight patterns, so we pivoted to simulating the thermal distribution given a variety of heat sources and sinks in spirit of our original project. 
-    </p>
-    
-    <div style="text-align:left; padding: 0px 30px;">
-      <h3>Background Math</h3>
-    </div>
-
-    <p style="text-align: left;padding: 0px 30px;">   
-    The discrete heat diffusion equation is a numerical approximation of the continuous heat diffusion equation, which describes the behavior of heat conduction in a given domain over time.  To implement this equation on the FPGA, we used the discretized version, which breaks down the domain into a grid of discrete points and approximates the heat transfer between these points based on their neighboring values. The 1D discrete heat equation is expressed as the following:
-    </p>
-
-    <p style="text-align: left;padding: 0px 30px;">   
-      <div style="text-align:center;">
-        <img class="img-rounded" src="pics/MathBackground.png" alt="Generic placeholder image" style="width:60%;">
-      </div>
-    </p>
-
-    <p style="text-align: left;padding: 0px 30px;">  
-      The equation calculates and updates the temperature at each point in the grid based on the temperatures of its neighboring points at the previous time step. For our design, we multiplied the alpha and change in temperature to control the rate of heat transfer between neighboring grid points in each iteration
-    </p>
-    <p style="text-align: left;padding: 0px 30px;">  
-      To solve the discrete heat diffusion equation, we start with either no heat or with an initial temperature distribution throughout the grid. Upon a heat injection, the design iteratively calculates the temperature at each point for subsequent time steps using the equation mentioned above. This process continues until the temperature distribution reaches a steady state. The block design that imlements our logical structure is shown below. 
-    </p>
-
-    <div style="text-align:center;">
-      <img class="img-rounded" src="pics/HighLevelDesign.png" alt="Generic placeholder image" style="width:80%;">
-    </div>
-
-    <div style="text-align:left; padding: 0px 30px;">
-      <h3>Logical Structure</h3>
-    </div>
-    <p style="text-align: left;padding: 0px 30px;">  
-      To sostuff
-    </p>
-
 
 
     <!-- PROGRAM AND HARDWARE DESIGN -->
@@ -153,10 +133,17 @@
 
       <!-- MODELSIM TESTING -->
       <div style="text-align:left; padding: 0px 30px;"> <h3>Modelsim Testing</h3> </div>
+      <p style="text-align: left;padding: 0px 30px;">We tested the math/functioning of the heat equations on ModelSim before we began integrating it to run on the FPGA. We used a modular approach to our design and used 2 modules besides the testbench to implement the heat equations. We checked this system initially for a 30x30 grid, with a source being hardcoded in the center of the grid. The source value was set to a high value or decimal 8. We initialized all the other grids to have a value of 0. The compute module within our modelsim files was responsible for calculating the value of the nodes. The compute module does this by taking into account the neighboring grid values and using Alpha and delta constants, computing the new value for the grid being passed to this module. This module was instantiated within the column module, which was responsible for building one column. The column module has an M10K block to store the values of the columns. This also makes accessing the left and right values of the grid easier, which is needed to fully compute the grid values. In the testbench, we instantiate the 30 columns using the generate module and check the data of the center column to verify that the values are as expected and approximately the same value as the C++ implementation. </p>
+      <p style="text-align: left;padding: 0px 30px;">The results of this can be seen in the figures below. The node_n value is the value of each row in the column over one time step and then the next time step and so forth. We steep a steep increase, which is proof that the source is set and that as time passes by, the nodes closer to the source increase as well. </p>
+
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/ModelSimSourceOnly.png" alt="Generic placeholder image" style="width:60%;"></div></p>
+
+      <p style="text-align: left;padding: 0px 30px;">After we were sure that the source was working as expected, we added a sink in the same column. We hardcoded the sink at row 7 in the 15th column and when we observed the node values across this column, we saw that the waveform had a dip and a peak, which accurately represented the source and the sink. With this, we knew that our computations were accurate and it was time to run it on the FPGA. </p>
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/ModelSimSourceandSink.png" alt="Generic placeholder image" style="width:60%;"></div></p>
 
       <!-- FPGA DESIGN -->
       <div style="text-align:left; padding: 0px 30px;"> <h3>FPGA Design</h3> </div>
-
+      <p style="text-align: left;padding: 0px 30px;">sometjhign </p>
 
     </div>
 
@@ -165,15 +152,8 @@
     <hr id='results'>
     <div style="text-align:center;">
       <h2>Results</h2>
-      <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-        lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim
-        posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec
-        est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum
-        pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla
-        lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec
-        ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim
-        feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.
-      </p>
+      <p style="text-align: left;padding: 0px 30px;">The speed of execution is incredibly fast and can be used live without any visible delay by users. The parallelization using the M10K blocks worked incredibly well for calculating the heat equation and the use of the GPU to plot through the SRAM also assisted in our ability to display live every time step iteration. We verified the correctness of our implementation by checking the point values in the first few timesteps manually. This was the same method of verification that we used to debug our modelsim implementation as well. </p>
+      <p style="text-align: left;padding: 0px 30px;">The user interface is incredibly user-friendly and easy to use as we ended up having to scale down some of our initial plans for HPS control. The user only has to run the executable file on the HPS and then can begin clicking wherever on the screen they would like to inject heat. Future progress can definitely be added here, our next step that we actually had implemented was giving the user the ability to differentiate between injecting heat and removing it using left and right button clicks, but unfortunately ran out of time for this addition on the FPGA side. The addition of sources and sinks is not as user friendly as this is currently hard-coded into the Verilog implementation. </p>
     </div>
 
     <!-- CONCLUSION -->
@@ -181,15 +161,10 @@
     <hr id='conclusion'>
     <div style="text-align:center;">
       <h2>Conclusion</h2>
-      <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-        lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim
-        posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec
-        est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum
-        pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla
-        lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec
-        ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim
-        feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.
-      </p>
+      <p style="text-align: left;padding: 0px 30px;">In conclusion, we successfully created an interactive heat diffusion simulation using the discrete heat equation that allows users to inject heat into a plane and see the results on the VGA screen directly. We have two compiled FPGA designs that can be programmed onto the hardware, one option has just a blank screen for a user to draw on and the other one has a source and a sink, but still allows the user to inject more heat and observe how the heat flows. </p>
+      
+      <p style="text-align: left;padding: 0px 30px;">While we initially planned to have the user be able to control more of the design, we did not realize how quickly the project would scale up in size on the Verilog side and had to scale down our goals. In spite of this, we are very proud of how the project turned out. If we were to do this again we would spend a lot more time planning out how all of the Verilog modules would interact with each other early on, as this might have led to us coming up with solutions to structural issues faster. We were very careful about pushing every version and small progress made to github and this allowed us to successfully backtrack multiple times and is something we would most definitely do again. We did use the GPU with FAST display from SRAM sample code that was provided and used in the class, but aside from that we did not use any other external materials. Even the color scale we made ourselves!  </p>
+
       <p> Check out the video below to see our project!</p>
     </div>
 
