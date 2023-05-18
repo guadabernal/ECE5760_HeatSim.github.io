@@ -65,6 +65,12 @@
 
     <hr id='obj'>
 
+
+
+
+
+    
+
     <!-- PROJECT INTRODUCTION -->
 
     <div class="row">
@@ -85,6 +91,12 @@
         </ul>
       </div>
     </div>
+
+
+
+
+
+
     
     
     <!-- HIGH LEVEL DESIGN SECITTON -->
@@ -93,7 +105,7 @@
       <h2>High Level Design</h2>
       <p style="text-align: left;padding: 0px 30px;"> Initially, we wanted to model individual Monarch butterfly behavior patterns and how they flock together, as they are known for their unique migration patterns and ability to navigate through environmental conditions based on temperature. Given more extensive research however, there were no equations out there to model flight patterns, so we pivoted to simulating the thermal distribution given a variety of heat sources and sinks in spirit of our original project. </p>
       <div style="text-align:center;"><img class="img-rounded" src="pics/HighLevelDesign.png" alt="Generic placeholder image" style="width:80%;"></div>
-      
+
       <!-- BACKGROUND MATH -->
       <div style="text-align:left; padding: 0px 30px;"><h3>Background Math</h3></div>
 
@@ -106,8 +118,23 @@
 
       <!-- LOGICAL STRUCTURE -->
       <div style="text-align:left; padding: 0px 30px;"><h3>Logical Structure</h3></div>
-      <p style="text-align: left;padding: 0px 30px;">  To sostuff</p>
+      <p style="text-align: left;padding: 0px 30px;">As shown from the block diagram, our solution comprises four layers that work together to achieve the desired functionality. The bottommost layer is the compute module, responsible for determining the new temperature of each node based on inputs from neighboring nodes, the alpha and delta t constants.</p>
+      <p style="text-align: left;padding: 0px 30px;">Above the compute module is the build column module, which constructs a column of temperature values. It iterates through all the nodes in the column, instantiating and utilizing M10K memory block for each column to store temperature values for each node.</p>
+      <p style="text-align: left;padding: 0px 30px;">The build grid module forms the layer above, handling the control signals necessary for advancing to the next column until all columns have computed their node values. A generate statement is used to generate the hardware for each build_column module and establish connections between left and right input values.</p>
+      <p style="text-align: left;padding: 0px 30px;">At the highest layer is the data processing system (DPS) module, responsible for data transmission between the HPS and FPGA. It updates values in the M10K memory and processes heat injection inputs from the user interface on the HPS. It reads the data values passed from specific SRAM addresseses and stores them in their appropriate M10K memory blocks based on the node's location. The DPS module also determines when to initiate the next iteration of grid calculation, and iterates through all the nodes to determine their pixel colors according to their temperature value and display them to the VGA screen.</p>
+      <p style="text-align: left;padding: 0px 30px;">Through the collaboration of these layers, our solution effectively handles the computation, storage, and visualization aspects of the heat diffusion simulation.</p>
+      <p style="text-align: left;padding: 0px 30px;">On the HPS side, we are running a program with three threads running concurrently. The first thread's purpose is to draw the cursor on the VGA screen and keep track of the mouse's location and user clicks. When a mouse click occurs, the x and y coordinates of the click are stored in an array for further processing. The second thread is responsible for passing the stored coordinates from the HPS to the FPGA using Qsys PIO ports. These coordinates are essential for the FPGA to perform relevant computations when updating the grid. The third thread handles keyboard input detection, allowing the user to indicate whether they want to perform a heat injection or create a heat vacuum. We focused solely on implementing heat injection functionality.</p>
+
+      <!-- SOFTWARE/HARDWARE TRADEOFFS -->
+      <div style="text-align:left; padding: 0px 30px;"><h3>Software/Hardware Tradeoffs</h3></div>
+
     </div>
+
+
+
+
+
+
 
 
     <!-- PROGRAM AND HARDWARE DESIGN -->
@@ -147,6 +174,12 @@
 
     </div>
 
+
+
+
+
+
+
     <!-- RESULTS OF THE DESIGN -->
 
     <hr id='results'>
@@ -155,6 +188,11 @@
       <p style="text-align: left;padding: 0px 30px;">The speed of execution is incredibly fast and can be used live without any visible delay by users. The parallelization using the M10K blocks worked incredibly well for calculating the heat equation and the use of the GPU to plot through the SRAM also assisted in our ability to display live every time step iteration. We verified the correctness of our implementation by checking the point values in the first few timesteps manually. This was the same method of verification that we used to debug our modelsim implementation as well. </p>
       <p style="text-align: left;padding: 0px 30px;">The user interface is incredibly user-friendly and easy to use as we ended up having to scale down some of our initial plans for HPS control. The user only has to run the executable file on the HPS and then can begin clicking wherever on the screen they would like to inject heat. Future progress can definitely be added here, our next step that we actually had implemented was giving the user the ability to differentiate between injecting heat and removing it using left and right button clicks, but unfortunately ran out of time for this addition on the FPGA side. The addition of sources and sinks is not as user friendly as this is currently hard-coded into the Verilog implementation. </p>
     </div>
+
+
+
+
+
 
     <!-- CONCLUSION -->
 
@@ -175,6 +213,13 @@
       allowfullscreen></iframe>
     </div>
 
+
+
+
+
+
+
+
     <!-- WORK DISTRIBUTION -->
     
     <hr id='Appendix'>
@@ -188,6 +233,8 @@
 
       <p>We used extensively the documentation provided on the course webstie linked here:
         https://people.ece.cornell.edu/land/courses/ece5760/ </p>
+
+      <p>Hunter's Drum Slides: https://vanhunteradams.com/DE1/Drum/Drum.pdf</p>
 
       <p> </p>
       <p>All members participated in debugging, integration, and documentation. </p>
