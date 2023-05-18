@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Resonance Frequency Tester</title>
+  <title>Heat Diffusion Simulator</title>
 
   <!-- Bootstrap core CSS -->
   <link href="dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,11 +24,6 @@
   <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
   <!-- <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body>
@@ -63,24 +58,28 @@
   <div class="container">
 
     <div class="starter-template">
-      <h1>Resonance Frequency Tester Project</h1>
-      <p class="lead">by Guadalupe Bernal (gb438) and Nikitha Sharma (ns756).</p>
-      <h6 style="text-align:center;">ECE 5725 Final Project submitted on Wednesday December 14th 2022</p>
+      <h1>Heat Diffusion Simulator</h1>
+      <p class="lead">by Guadalupe Bernal (gb438), Nikitha Sharma (ns756), Frances Lee (fl296)</p>
+      <h6 style="text-align:center;">ECE 5760 Final Project submitted on May 18, 2023</p>
     </div>
 
     <hr id='obj'>
 
     <div class="row">
       <div style="text-align:center;">
-        <h2>Project Objective</h2>
+        <h2>Project Introduction</h2>
       </div>
 
-      <div class="col-md-8" style="font-size:18px;">
+      <div class="col-md-12" style="font-size:18px;">
         <ul>
-          <li>some important objectives.some important objectives.some important objectives.some important objectives.
-          </li>
-          <li>some other important objectives.</li>
-          <li>some not-that-important objectives.</li>
+          <p style="text-align: left;padding: 0px 30px;">
+          The goal of this project is to create an interactive heat diffusion simulation using the heat equation on a discrete domain, which allows the user to pick sources and sinks on the VGA screen and simulate the resultant reactions in real-time on the VGA screen. 
+          </p>
+
+          <p style="text-align: left;padding: 0px 30px;">          
+          To complete this project, we utilized the De1-SOC FPGA, a VGA screen, and a mouse, along with a robust hardware and software design. On the hardware side, our Verilog code utilizes hardware on the FPGA to generate a grid of cells, compute the thermal magnitude of each cell, select the respective color based on the magnitude, and plot the colors to the VGA. On the HPS side, our C++ code allows the user to inject heat on the VGA screen and to see the gradient-like visual effects in real time. We have one mode with preset sources/sinks and another mode with no sources/sinks. All together, we were able to utilize the knowledge and skills learned from our previous labs to build a beautiful simulation. 
+          </p>
+   
         </ul>
       </div>
     </div>
@@ -88,8 +87,33 @@
 
 
     <div style="text-align:center;">
-      <h2>Project Video</h2>
+      <h2>High Level Design</h2>
     </div>
+    
+    <p style="text-align: left;padding: 0px 30px;">   
+    Initially, we wanted to model individual Monarch butterfly behavior patterns and how they flock together, as they are known for their unique migration patterns and ability to navigate through environmental conditions based on temperature. Given more extensive research however, there were no equations out there to model flight patterns, so we pivoted to simulating the thermal distribution given a variety of heat sources and sinks in spirit of our original project. 
+    </p>
+    
+    <div style="text-align:left; padding: 0px 30px;">
+      <h3>Background Math</h3>
+    </div>
+
+    <p style="text-align: left;padding: 0px 30px;">   
+      <div style="text-align:center;">
+        <img class="img-rounded" src="pics/Background Math.png" alt="Generic placeholder image" style="width:80%;">
+      </div>
+    </p>
+
+
+
+    <div style="text-align:center;">
+      <img class="img-rounded" src="pics/High Level Design.png" alt="Generic placeholder image" style="width:80%;">
+    </div>
+
+
+
+
+
     <div class="center-block">
       <!-- VIDEO LINKED HERE -->
       <iframe width="560" height="315" src="https://www.youtube.com/embed/BHCQTJ3UhHM" title="YouTube video player"
@@ -178,7 +202,6 @@
     </div>
 
     <!-- BUDGET -->
-
 
     <hr id='budget'>
     <div style="text-align:center;">
