@@ -38,32 +38,35 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">ECE 5725 Final Project</a>
+        <a class="navbar-brand" href="#">ECE 5760 Final Project</a>
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Home</a></li>
-          <li><a href="#obj">Objective</a></li>
-          <li><a href="#intro">Introduction</a></li>
-          <li><a href="#design and testing">Design and Testing</a></li>
+          <li><a href="#obj">Introduction</a></li>
+          <li><a href="#HLD">HLD</a></li>
+          <li><a href="#PHD">Program & Hardware Design</a></li>
           <li><a href="#results">Results</a></li>
           <li><a href="#conclusion">Conclusion</a></li>
-          <li><a href="#future work">Future Work</a></li>
+          <li><a href="#Appendix">Appendix</a></li>
         </ul>
       </div>
       <!--/.nav-collapse -->
     </div>
   </nav>
 
+  
   <div class="container">
 
     <div class="starter-template">
       <h1>Heat Diffusion Simulator</h1>
       <p class="lead">by Guadalupe Bernal (gb438), Nikitha Sharma (ns756), Frances Lee (fl296)</p>
-      <h6 style="text-align:center;">ECE 5760 Final Project submitted on May 18, 2023</p>
+      <h6 style="text-align:center;">ECE 5760 Final Project Report submitted on May 18, 2023</p>
     </div>
 
     <hr id='obj'>
+
+    <!-- PROJECT INTRODUCTION -->
 
     <div class="row">
       <div style="text-align:center;">
@@ -83,8 +86,11 @@
         </ul>
       </div>
     </div>
-    <hr>
-
+    
+    
+    
+    <!-- HIGH LEVEL DESIGN -->
+    <hr id='HLD'>
 
     <div style="text-align:center;">
       <h2>High Level Design</h2>
@@ -94,78 +100,61 @@
     Initially, we wanted to model individual Monarch butterfly behavior patterns and how they flock together, as they are known for their unique migration patterns and ability to navigate through environmental conditions based on temperature. Given more extensive research however, there were no equations out there to model flight patterns, so we pivoted to simulating the thermal distribution given a variety of heat sources and sinks in spirit of our original project. 
     </p>
     
-    <div style="text-align:left; padding: 0px 30px;">
-      <h3>Background Math</h3>
-    </div>
+    <!-- C IMPLEMENTATION -->
+    <div style="text-align:left; padding: 0px 30px;"> <h3>Background Math</h3> </div>
+    <p style="text-align: left;padding: 0px 30px;">The discrete heat diffusion equation is a numerical approximation of the continuous heat diffusion equation, which describes the behavior of heat conduction in a given domain over time.  To implement this equation on the FPGA, we used the discretized version, which breaks down the domain into a grid of discrete points and approximates the heat transfer between these points based on their neighboring values. </p>
 
     <p style="text-align: left;padding: 0px 30px;">   
       <div style="text-align:center;">
-        <img class="img-rounded" src="pics/Background Math.png" alt="Generic placeholder image" style="width:80%;">
+        <img class="img-rounded" src="pics/BackgroundMath.png" alt="Generic placeholder image" style="width:80%;">
       </div>
     </p>
 
 
 
     <div style="text-align:center;">
-      <img class="img-rounded" src="pics/High Level Design.png" alt="Generic placeholder image" style="width:80%;">
+      <img class="img-rounded" src="pics/HighLevelDesign.png" alt="Generic placeholder image" style="width:80%;">
     </div>
 
 
 
+    <!-- PROGRAM AND HARDWARE DESIGN -->
 
-
-    <div class="center-block">
-      <!-- VIDEO LINKED HERE -->
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/BHCQTJ3UhHM" title="YouTube video player"
-        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen></iframe>
-    </div>
-
-    <!-- INTRODUCTION -->
-
-    <hr id="intro">
+    <hr id="PHD">
     <div style="text-align:center;">
-      <h2>Introduction</h2>
-      <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-        lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim
-        posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec
-        est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum
-        pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla
-        lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec
-        ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim
-        feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.
-      </p>
+      <h2>Program and Hardware Design</h2>
+      
+      <!-- C IMPLEMENTATION -->
+      <div style="text-align:left; padding: 0px 30px;"> <h3>C Implementation</h3> </div>
+      <p style="text-align: left;padding: 0px 30px;">When trying to decide the scope of extra features we wanted to implement and create a plan for the high level design, we began by implementing the heat equation in C++ on our computers using GLUT through OpenGL. Once this was functional and we had a clear idea of how to incorporate sources, sinks, and initial heat to the discrete heat equation by initializing the cell values we moved the C code to the HPS, removed the graphics, and plotted directly to the VGA by plotting to every pixel in a square section and sending the color. The figures below show this result over time with three heat sources and one smaller heat sink.  </p>
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/SimulationInC.png" alt="Generic placeholder image" style="width:80%;"></div></p>
+
+      <!-- HPS DESIGN -->
+      <div style="text-align:left; padding: 0px 30px;"> <h3>HPS Design</h3> </div>
+      <p style="text-align: left;padding: 0px 30px;">Doing this allowed us to incrementally implement the basic communication between the HPS and the FPGA. First we added a keyboard interface to the HPS code so that we would be able to select what type of heat we wanted to add. Then we added a cursor that would update live, and finally we implemented pixel by pixel drawing from the FPGA to the HPS as seen by the heart that we drew with the mouse that the HPS sent pixel by pixel to the FPGA. </p>
+      
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/heart.png" alt="Generic placeholder image" style="width:20%;"></div></p>
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/cursor.png" alt="Generic placeholder image" style="width:20%;"></div></p>
+      
+      <p style="text-align: left;padding: 0px 30px;">With the ability to transmit pixel information directly to the FPGA we switched to integrating the ModelSim heat equation outlined in the section. But because of how we had implemented the pixel drawing, we quickly realized that we did not have enough M10K blacks to draw the whole screen. So instead we implemented a scaling system whose progress can be seen below. First we implemented a scaling system so that when the user clicks on the screen that position is scaled down by 7 and cropped to a square range of 64 by 64 possible positions. Then this information is transmitted to the HPS DPS Module, which simply receives the pixels and sends them to an arbiter to plot. This arbiter would then scale the 64 by 64 pixels back up to a square of size 448x448 pixels.</p>
+      <p style="text-align: left;padding: 0px 30px;"> <div style="text-align:center;"><img class="img-rounded" src="pics/ProgressionSmiles.png" alt="Generic placeholder image" style="width:80%;"></div></p>
+
+      <!-- MODELSIM TESTING -->
+      <div style="text-align:left; padding: 0px 30px;"> <h3>Modelsim Testing</h3> </div>
+
+      <!-- FPGA DESIGN -->
+      <div style="text-align:left; padding: 0px 30px;"> <h3>FPGA Design</h3> </div>
+
+
     </div>
 
-    <!-- DESIGN AND TESTING -->
-
-    <hr id='design and testing'>
-    <div style="text-align:center;">
-      <h2>Design and Testing</h2>
-      <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-        lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim
-        posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec
-        est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum
-        pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla
-        lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec
-        ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim
-        feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.
-      </p>
-    </div>
-
-    <!-- RESULTS -->
+    <!-- RESULTS OF THE DESIGN -->
 
     <hr id='results'>
     <div style="text-align:center;">
-      <h2>Results</h2>
-      <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-        lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim
-        posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec
-        est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum
-        pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla
-        lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec
-        ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim
-        feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.
+      <h2>Results of the Design</h2>
+      <p style="text-align: left;padding: 0px 30px;">The speed of execution is incredibly fast and can be used live without any visible delay by users. The parallelization using the M10K blocks worked incredibly well for calculating the heat equation and the use of the GPU to plot through the SRAM also assisted in our ability to display live every time step iteration. We verified the correctness of our implementation by checking the point values in the first few timesteps manually. This was the same method of verification that we used to debug our modelsim implementation as well. </p>
+      <p style="text-align: left;padding: 0px 30px;">The user interface is incredibly user-friendly and easy to use as we ended up having to scale down some of our initial plans for HPS control. The user only has to run the executable file on the HPS and then can begin clicking wherever on the screen they would like to inject heat. Future progress can definitely be added here, our next step that we actually had implemented was giving the user the ability to differentiate between injecting heat and removing it using left and right button clicks, but unfortunately ran out of time for this addition on the FPGA side. The addition of sources and sinks is not as user friendly as this is currently hard-coded into the Verilog implementation.
       </p>
     </div>
 
@@ -174,108 +163,45 @@
     <hr id='conclusion'>
     <div style="text-align:center;">
       <h2>Conclusion</h2>
-      <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-        lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim
-        posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec
-        est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum
-        pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla
-        lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec
-        ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim
-        feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.
+      <p style="text-align: left;padding: 0px 30px;">In conclusion, we successfully created an interactive heat diffusion simulation using the discrete heat equation that allows users to inject heat into a plane and see the results on the VGA screen directly. We have two compiled FPGA designs that can be programmed onto the hardware, one option has just a blank screen for a user to draw on and the other one has a source and a sink, but still allows the user to inject more heat and observe how the heat flows. </p>
+      <p style="text-align: left;padding: 0px 30px;">While we initially planned to have the user be able to control more of the design, we did not realize how quickly the project would scale up in size on the Verilog side and had to scale down our goals. In spite of this, we are very proud of how the project turned out. If we were to do this again we would spend a lot more time planning out how all of the Verilog modules would interact with each other early on, as this might have led to us coming up with solutions to structural issues faster. We were very careful about pushing every version and small progress made to github and this allowed us to successfully backtrack multiple times and is something we would most definitely do again. We did use the GPU with FAST display from SRAM sample code that was provided and used in the class, but aside from that we did not use any other external materials. Even the color scale we made ourselves! 
       </p>
+      <p> Check out the video below to see our project!</p>
     </div>
 
-    <!-- FUTURE WORK -->
-
-    <hr id='future work'>
-    <div style="text-align:center;">
-      <h2>Future Work</h2>
-      <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-        lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim
-        posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec
-        est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum
-        pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla
-        lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec
-        ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim
-        feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.
-      </p>
+    <div class="center-block">
+      <!-- VIDEO LINKED HERE -->
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/-vn-13N2p3s" title="YouTube video player" 
+      frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+      allowfullscreen></iframe>
     </div>
-
-    <!-- BUDGET -->
-
-    <hr id='budget'>
-    <div style="text-align:center;">
-      <h2>Budget</h2>
-      <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolorCurabitur eget urna ut nulla mattis convallis non
-        eu diam.</p>
-      <ul>
-        <li>Raspberry Pi $35.00</li>
-        <li>Raspberry Pi Camera V2 $25.00</li>
-        <a href="https://www.adafruit.com/product/1463">
-          <li>NeoPixel Ring - $9.95</li>
-        </a>
-        <li>LEDs, Resistors and Wires - Provided in lab</li>
-      </ul>
-      <h3>Total: $69.95</h3>
-    </div>
-
-    <!-- REFERENCES -->
-
-    <hr>
-    <div style="text-align:center;">
-      <h2>References</h2>
-    </div>
-    <div style="font-size:18px">
-
-      <a href="https://picamera.readthedocs.io/">PiCamera Document</a><br>
-      <a href="http://www.micropik.com/PDF/SG90Servo.pdf">Tower Pro Servo Datasheet</a><br>
-      <a href="http://getbootstrap.com/">Bootstrap</a><br>
-      <a href="http://abyz.co.uk/rpi/pigpio/">Pigpio Library</a><br>
-      <a href="https://sourceforge.net/p/raspberry-gpio-python/wiki/Home/">R-Pi GPIO Document</a><br>
-
-    </div>
-
-    <!-- CODE APPENDIX -->
-
-    <hr>
-    <div style="text-align:center;">
-      <h2>Code Appendix</h2>
-    </div>
-    <div class="row">
-
-      <pre><code>
-// Hello World.c
-int main(){
-  printf("Hello World.\n");
-}
-              </code></pre>
-    </div>
-
-    <hr>
 
     <!-- WORK DISTRIBUTION -->
-
+    
+    <hr id='Appendix'>
     <div class="row" style="text-align:center;">
-      <h2>Work Distribution</h2>
-      <div style="text-align:center;">
-        <img class="img-rounded" src="pics/group.jpg" alt="Generic placeholder image" style="width:80%;">
-        <h4>Team Photo!</h4>
-      </div>
-      <div class="col-md-6" style="font-size:16px">
+      <h2>Appendix A (permissions)</h2>
+      <p>The group approves this report for inclusion on the course website.</p>
+      <p>The group approves the video for inclusion on the course youtube channel.</p>
 
-        <h3>Nikitha Sharma</h3>
-        <p class="lead">ns756@cornell.edu</p>
-        <p>Designed, tested, and debugged communications between the accelerometer and the program. Coded the plot
-          creation using the Klipper Library. Contributed to all sections of the report.
-      </div>
-      <div class="col-md-6" style="font-size:16px">
+      <p>Fully commented Verilog, C, and testing code can be found at the following link:
+      https://github.com/fran07981/ece5760finalproject</p>
 
-        <h3>Guadalupe Bernal</h3>
-        <p class="lead">gb438@cornell.edu</p>
-        <p>Designed, tested, and debugged communications between the Raspberry PI and the Teensy Microcontroller.
-          Created the interface for controlling the motor from the Raspberry PI. Contributed to all sections of the
-          report.
-      </div>
+      <p>We used extensively the documentation provided on the course webstie linked here:
+        https://people.ece.cornell.edu/land/courses/ece5760/ </p>
+
+      <p> </p>
+      <p>All members participated in debugging, integration, and documentation. </p>
+      
+      <p>Guadalupe wrote the initial C implementation and defined and implemented the communication of data between the HPS and the FPGA.</p>
+      <p>Nikitha implmeneted the Modelsim implementation of the discrete heat equation and testing.</p>
+      <p>Franny worked on the HPS code to read information from the mouse and keyboard and plotting the cursor as well as debugging.</p>
+      <p> </p>
+      
+      <p> </p>
+
+      <hr><hr><hr><hr><hr>
+      <p> </p>
     </div>
 
 
