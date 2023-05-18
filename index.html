@@ -38,7 +38,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">ECE 5725 Final Project</a>
+        <a class="navbar-brand" href="#">ECE 5760 Final Project</a>
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -85,7 +85,6 @@
     </div>
     <hr>
 
-
     <div style="text-align:center;">
       <h2>High Level Design</h2>
     </div>
@@ -97,18 +96,34 @@
     <div style="text-align:left; padding: 0px 30px;">
       <h3>Background Math</h3>
     </div>
+    
+    <p style="text-align: left;padding: 0px 30px;">  
+      The discrete heat diffusion equation is a numerical approximation of the continuous heat diffusion equation, which describes the behavior of heat conduction in a given domain over time.  To implement this equation on the FPGA, we used the discretized version, which breaks down the domain into a grid of discrete points and approximates the heat transfer between these points based on their neighboring values. 
+    </p>
 
     <p style="text-align: left;padding: 0px 30px;">   
       <div style="text-align:center;">
-        <img class="img-rounded" src="pics/Background Math.png" alt="Generic placeholder image" style="width:80%;">
+        <img class="img-rounded" src="pics/Math Background.png" alt="Generic placeholder image" style="width:50%;">
       </div>
     </p>
 
-
+    <p style="text-align: left;padding: 0px 30px;">  
+      The equation calculates and updates the temperature at each point in the grid based on the temperatures of its neighboring points at the previous time step. For our design, we multiplied the alpha and change in temperature to control the rate of heat transfer between neighboring grid points in each iteration
+    </p>
+    <p style="text-align: left;padding: 0px 30px;">  
+      To solve the discrete heat diffusion equation, we start with either no heat or with an initial temperature distribution throughout the grid. Upon a heat injection, the design iteratively calculates the temperature at each point for subsequent time steps using the equation mentioned above. This process continues until the temperature distribution reaches a steady state. The block design that imlements our logical structure is shown below. 
+    </p>
 
     <div style="text-align:center;">
       <img class="img-rounded" src="pics/High Level Design.png" alt="Generic placeholder image" style="width:80%;">
     </div>
+
+    <div style="text-align:left; padding: 0px 30px;">
+      <h3>Logical Structure</h3>
+    </div>
+    <p style="text-align: left;padding: 0px 30px;">  
+      To sostuff
+    </p>
 
 
 
@@ -160,12 +175,7 @@
       <h2>Results</h2>
       <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
         lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim
-        posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec
-        est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum
-        pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla
-        lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec
-        ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim
-        feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.
+
       </p>
     </div>
 
@@ -177,11 +187,7 @@
       <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
         lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim
         posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec
-        est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum
-        pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla
-        lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec
-        ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim
-        feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.
+
       </p>
     </div>
 
